@@ -26,7 +26,7 @@ public class Solution {
                         solution.alert();
                     }
                 } catch (NumberFormatException nfe) {
-                    System.err.println(nfe);
+                    System.err.println("Please enter a num.");
                 }
             }
         }
