@@ -3,6 +3,7 @@ package com.pwc;
 import java.util.Scanner;
 
 import static com.pwc.Constants.*;
+import static com.pwc.Utils.*;
 
 public class Solution {
     private String currentStatus = "UNKNOW";
@@ -10,13 +11,15 @@ public class Solution {
     private double currentTemperature = 0;
 
     public static void main(String[] args) {
+        echoActions();
+
         Solution solution = new Solution();
         Scanner scanner = new Scanner(System.in);
         while (true) {
             if (scanner.hasNextLine()) {
                 try {
-                    Double aDouble = Utils.parseConsoleLine(scanner);
-                    Utils.echo(aDouble);
+                    Double aDouble = parseConsoleLine(scanner);
+                    echoNum(aDouble);
 
                     solution.setTemperature(aDouble);
                     if (!solution.isFluctuating()) {
@@ -41,25 +44,25 @@ public class Solution {
 
         if (privTemperature < BOILING_THRESHOLDS &&
                 curTemperature >= BOILING_THRESHOLDS) {
-            Utils.echoStatus(BOILING);
+            echoStatus(BOILING);
             setCurrentStatus(BOILING);
         }
 
         if (privTemperature > BOILING_THRESHOLDS &&
                 curTemperature <= BOILING_THRESHOLDS) {
-            Utils.echoStatus(UNBOILING);
+            echoStatus(UNBOILING);
             setCurrentStatus(UNBOILING);
         }
 
         if (privTemperature > FREEZING_THRESHOLDS &&
                 curTemperature <= FREEZING_THRESHOLDS) {
-            Utils.echoStatus(FREEZING);
+            echoStatus(FREEZING);
             setCurrentStatus(FREEZING);
         }
 
         if (privTemperature < FREEZING_THRESHOLDS &&
                 curTemperature >= FREEZING_THRESHOLDS) {
-            Utils.echoStatus(UNFREEZING);
+            echoStatus(UNFREEZING);
             setCurrentStatus(UNFREEZING);
         }
     }
@@ -71,14 +74,14 @@ public class Solution {
         double curTemperature = getCurrentTemperature();
 
         if (getCurrentStatus() == FREEZING) {
-            if (curTemperature <= UNFREEZING_THRESHOLDS) {
+            if (curTemperature >= FREEZING_THRESHOLDS && curTemperature <= UNFREEZING_THRESHOLDS) {
                 fluctuating = true;
                 setCurrentTemperature(privTemperature); // ignore currnet Temperature
             }
         }
 
         if (getCurrentStatus() == BOILING) {
-            if (curTemperature >= UNBOILING_THRESHOLDS) {
+            if (curTemperature <= BOILING_THRESHOLDS && curTemperature >= UNBOILING_THRESHOLDS) {
                 fluctuating = true;
                 setCurrentTemperature(privTemperature); // ignore currnet Temperature
             }
