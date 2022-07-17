@@ -42,18 +42,12 @@ public class Solution {
         double privTemperature = getPriviousTemperature();
         double curTemperature = getCurrentTemperature();
 
-        if (privTemperature < BOILING_THRESHOLDS &&
-                curTemperature >= BOILING_THRESHOLDS) {
-            echoStatus(BOILING);
-            setCurrentStatus(BOILING);
-        }
+        alertFreeze(privTemperature, curTemperature);
 
-        if (privTemperature > BOILING_THRESHOLDS &&
-                curTemperature <= BOILING_THRESHOLDS) {
-            echoStatus(UNBOILING);
-            setCurrentStatus(UNBOILING);
-        }
+        alertBoiling(privTemperature, curTemperature);
+    }
 
+    private void alertFreeze(double privTemperature, double curTemperature) {
         if (privTemperature > FREEZING_THRESHOLDS &&
                 curTemperature <= FREEZING_THRESHOLDS) {
             echoStatus(FREEZING);
@@ -64,6 +58,20 @@ public class Solution {
                 curTemperature >= FREEZING_THRESHOLDS) {
             echoStatus(UNFREEZING);
             setCurrentStatus(UNFREEZING);
+        }
+    }
+
+    private void alertBoiling(double privTemperature, double curTemperature) {
+        if (privTemperature < BOILING_THRESHOLDS &&
+                curTemperature >= BOILING_THRESHOLDS) {
+            echoStatus(BOILING);
+            setCurrentStatus(BOILING);
+        }
+
+        if (privTemperature > BOILING_THRESHOLDS &&
+                curTemperature <= BOILING_THRESHOLDS) {
+            echoStatus(UNBOILING);
+            setCurrentStatus(UNBOILING);
         }
     }
 
